@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       k = preferences.getInt("k") ?? 5;
-      print(k);
     });
   }
 
