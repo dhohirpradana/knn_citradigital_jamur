@@ -68,7 +68,7 @@ class _SplashState extends State<Splash> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width / 3,
+                width: MediaQuery.of(context).size.width / 3.3,
                 child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage('lib/Assets/image/ic_launcher.png')),
@@ -78,15 +78,15 @@ class _SplashState extends State<Splash> {
               ),
               Text(
                 'KLASIFIKASI',
-                style: TextStyle(fontSize: 38.6, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
               ),
               Text(
                 'JAMUR',
-                style: TextStyle(fontSize: 66.6, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 56.6, fontWeight: FontWeight.bold),
               ),
               Text(
                 'K-NEAREST NEIGHBORS',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 17.3, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 25,

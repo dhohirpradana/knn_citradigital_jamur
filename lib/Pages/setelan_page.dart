@@ -39,7 +39,10 @@ class _SetelanPageState extends State<SetelanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('SETELAN'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [Text('SETELAN'), Icon(Icons.settings)],
+          ),
           backgroundColor: primaryColor,
         ),
         body: Form(
@@ -56,7 +59,7 @@ class _SetelanPageState extends State<SetelanPage> {
               SecondaryButtton(
                   title: 'SIMPAN',
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       setPref(kC.text);
                     }
                   })

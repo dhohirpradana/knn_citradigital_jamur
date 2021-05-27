@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:knn_citra_digital/DbProviders/training_db_provider.dart';
+import 'package:knn_citra_digital/DbProviders/list_training.dart';
+import 'package:knn_citra_digital/Utils/text_status.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getPref();
-    getTrainingList();
   }
 
   //Color
@@ -28,17 +28,6 @@ class _HomePageState extends State<HomePage> {
 
   GlobalKey _toolTipKey = GlobalKey();
   GlobalKey _toolTipKey1 = GlobalKey();
-  TrainingDbProvider trainingDb = TrainingDbProvider();
-  List dataTraining = [];
-  Future getTrainingList() async {
-    var data = await trainingDb.fetchTraining();
-    setState(() {
-      dataTraining = data;
-      if (data.length < k) {
-        k = data.length;
-      }
-    });
-  }
 
   void getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -58,15 +47,15 @@ class _HomePageState extends State<HomePage> {
     final paletteGenerator = await PaletteGenerator.fromImageProvider(
       Image.memory(image).image,
     );
-    final face = paletteGenerator.dominantColor.color;
+    final face = paletteGenerator.dominantColor!.color;
     double percent;
     selisihList.clear();
     for (int i = 0; i < dataTraining.length; i++) {
-      final selisih = sqrt((dataTraining[i].r - face.red).abs() +
-          (dataTraining[i].g - face.green).abs() +
-          (dataTraining[i].b - face.blue).abs());
+      final selisih = sqrt((dataTraining[i]['r'] - face.red).abs() +
+          (dataTraining[i]['g'] - face.green).abs() +
+          (dataTraining[i]['b'] - face.blue).abs());
       percent = selisih / sqrt((255) ^ 2 + (255) ^ 2 + (255) ^ 2);
-      selisihList.add({'state': dataTraining[i].state, 'percent': percent});
+      selisihList.add({'state': dataTraining[i]['state'], 'percent': percent});
 
       //sort data selisih list
       selisihList.sort((a, b) {
@@ -79,15 +68,15 @@ class _HomePageState extends State<HomePage> {
     //SUM List Value
     sum = 0;
     for (var i = 0; i < k; i++) {
-      sum += selisihList[i]['state'];
+      sum = sum + selisihList[i]['state'] as int;
     }
     return paletteGenerator;
   }
 
-  File imageFile;
-  Uint8List decoded;
+  File? imageFile;
+  Uint8List? decoded;
   pickImage(source) async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+    PickedFile? pickedFile = await ImagePicker().getImage(
       source: source,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -99,7 +88,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Crop Image
   cropImage(filePath) async {
-    File croppedImage = await ImageCropper.cropImage(
+    File? croppedImage = await ImageCropper.cropImage(
       sourcePath: filePath,
       maxWidth: 1080,
       maxHeight: 1080,
@@ -120,7 +109,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('KLASIFIKASI JAMUR'),
+          title: Row(
+            children: [
+              Text('KLASIFIKASI JAMUR'),
+              Column(
+                children: [
+                  Container(
+                    height: 40,
+                    child: Image(
+                        fit: BoxFit.cover,
+                        image: AssetImage('lib/Assets/image/jamur.png')),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  )
+                ],
+              ),
+            ],
+          ),
           backgroundColor: primaryColor,
         ),
         body: SingleChildScrollView(
@@ -140,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                           height: MediaQuery.of(context).size.height / 2,
                           width: MediaQuery.of(context).size.width / 1.07,
                           child: Image.memory(
-                            decoded,
+                            decoded!,
                             fit: BoxFit.cover,
                           ))
                       : Container(
@@ -148,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(10)),
                           width: MediaQuery.of(context).size.width - 30,
-                          height: MediaQuery.of(context).size.width - 30,
+                          height: MediaQuery.of(context).size.height / 1.3,
                           child: Icon(
                             Icons.add_a_photo_rounded,
                             size: 100,
@@ -230,11 +236,8 @@ class _HomePageState extends State<HomePage> {
                                                 child: Column(children: [
                                                   Text("Status"),
                                                   for (var i = 0; i < k; i++)
-                                                    Text((selisihList[i]
-                                                                ['state'] ==
-                                                            1)
-                                                        ? 'BERACUN'
-                                                        : 'TIDAK BERACUN'),
+                                                    statusText(selisihList[i]
+                                                        ['state']),
                                                 ])),
                                           ]),
                                     ]),

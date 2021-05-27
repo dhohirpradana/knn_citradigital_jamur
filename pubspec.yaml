@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -28,18 +28,19 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
-  image_picker: ^0.7.4
+  image_picker: ^0.7.5+3
   palette_generator: ^0.3.0
   awesome_dialog: ^2.0.0
   flutter_awesome_buttons: ^1.0.0-prerelease-nullsafety
   image_cropper: ^1.4.0
   intl: ^0.17.0
-  sqflite: ^2.0.0+3
-  flutter_screenutil: ^5.0.0
-  path_provider: ^2.0.1
-  shared_preferences: ^2.0.5
+  flutter_screenutil: ^5.0.0+2
+  path_provider: ^2.0.2
+  shared_preferences: ^2.0.6
   flutter_colorpicker: ^0.4.0
-  package_info: ^2.0.0
+  package_info: ^2.0.2
+  flutter_staggered_grid_view: ^0.4.0
+  transparent_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +60,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/Assets/image/ic_launcher.png
+    - lib/Assets/image/jamur.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

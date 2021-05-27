@@ -1,9 +1,9 @@
 class TrainingModel {
-  final int id;
-  final int state;
-  final int r;
-  final int g;
-  final int b;
+  final int? id;
+  final int? state;
+  final int? r;
+  final int? g;
+  final int? b;
   final base64;
 
   TrainingModel({this.id, this.state, this.r, this.g, this.b, this.base64});
