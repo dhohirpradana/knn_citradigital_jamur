@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      k = preferences.getInt("k") ?? 10;
+      k = preferences.getInt("k") ?? 25;
     });
   }
 
@@ -63,8 +63,13 @@ class _HomePageState extends State<HomePage> {
       final sg = ((hsli.saturation - hsl.saturation).abs());
       final sb = ((hsli.lightness - hsl.lightness).abs());
       percent = sqrt((sr * sr) + (sg * sg) + (sb * sb));
-      selisihList
-          .add({'state': dataTrainingReborn[i]['state'], 'percent': percent});
+      selisihList.add({
+        'state': dataTrainingReborn[i]['state'],
+        'percent': percent,
+        'r': dataTrainingReborn[i]['r'],
+        'g': dataTrainingReborn[i]['g'],
+        'b': dataTrainingReborn[i]['b']
+      });
 
       //sort data selisih list
       selisihList.sort((a, b) {
@@ -219,9 +224,31 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                       ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 16.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text('R: '),
+                                            Text(snapshot
+                                                .data!.dominantColor!.color.red
+                                                .toString()),
+                                            Text(' G: '),
+                                            Text(snapshot.data!.dominantColor!
+                                                .color.green
+                                                .toString()),
+                                            Text(' B: '),
+                                            Text(snapshot
+                                                .data!.dominantColor!.color.blue
+                                                .toString()),
+                                          ],
+                                        ),
+                                      ),
                                       Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Padding(
                                                 padding: EdgeInsets.all(16.0),
@@ -231,6 +258,30 @@ class _HomePageState extends State<HomePage> {
                                                     Text(
                                                       (i + 1).toString(),
                                                     )
+                                                ])),
+                                            Padding(
+                                                padding: EdgeInsets.all(16.0),
+                                                child: Column(children: [
+                                                  Text("R"),
+                                                  for (var i = 0; i < k; i++)
+                                                    Text(f.format(
+                                                        selisihList[i]['r']))
+                                                ])),
+                                            Padding(
+                                                padding: EdgeInsets.all(16.0),
+                                                child: Column(children: [
+                                                  Text("G"),
+                                                  for (var i = 0; i < k; i++)
+                                                    Text(f.format(
+                                                        selisihList[i]['g']))
+                                                ])),
+                                            Padding(
+                                                padding: EdgeInsets.all(16.0),
+                                                child: Column(children: [
+                                                  Text("B"),
+                                                  for (var i = 0; i < k; i++)
+                                                    Text(f.format(
+                                                        selisihList[i]['b']))
                                                 ])),
                                             Padding(
                                                 padding: EdgeInsets.all(16.0),
