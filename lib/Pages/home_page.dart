@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:knn_citra_digital/DbProviders/list_training.dart';
+import 'package:knn_citra_digital/DbProviders/list_training_v2.dart';
 import 'package:knn_citra_digital/Utils/text_status.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      k = preferences.getInt("k") ?? 5;
+      k = preferences.getInt("k") ?? 10;
     });
   }
 
@@ -50,12 +50,21 @@ class _HomePageState extends State<HomePage> {
     final face = paletteGenerator.dominantColor!.color;
     double percent;
     selisihList.clear();
-    for (int i = 0; i < dataTraining.length; i++) {
-      final selisih = sqrt((dataTraining[i]['r'] - face.red).abs() +
-          (dataTraining[i]['g'] - face.green).abs() +
-          (dataTraining[i]['b'] - face.blue).abs());
-      percent = selisih / sqrt((255) ^ 2 + (255) ^ 2 + (255) ^ 2);
-      selisihList.add({'state': dataTraining[i]['state'], 'percent': percent});
+    for (int i = 0; i < dataTrainingReborn.length; i++) {
+      final hsl = HSLColor.fromColor(face);
+      final hsli = HSLColor.fromColor(Color.fromRGBO(
+        dataTrainingReborn[i]['r'],
+        dataTrainingReborn[i]['g'],
+        dataTrainingReborn[i]['b'],
+        1,
+      ));
+
+      final sr = ((hsli.hue - hsl.hue).abs()) / 360;
+      final sg = ((hsli.saturation - hsl.saturation).abs());
+      final sb = ((hsli.lightness - hsl.lightness).abs());
+      percent = sqrt((sr * sr) + (sg * sg) + (sb * sb));
+      selisihList
+          .add({'state': dataTrainingReborn[i]['state'], 'percent': percent});
 
       //sort data selisih list
       selisihList.sort((a, b) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:knn_citra_digital/Pages/home_page.dart';
+import 'package:knn_citra_digital/Pages/main_training_page.dart';
 import 'package:knn_citra_digital/Pages/setelan_page.dart';
-import 'package:knn_citra_digital/Pages/training_page.dart';
 
 class MainHomePage extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _MainHomePageState extends State<MainHomePage> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    TrainingPage(),
+    MainTraining(),
     SetelanPage()
   ];
   void _onItemTapped(int index) {

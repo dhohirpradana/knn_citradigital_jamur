@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class TrainingPage extends StatefulWidget {
+class TrainingPage2 extends StatefulWidget {
   @override
-  _TrainingPageState createState() => _TrainingPageState();
+  _TrainingPageState2 createState() => _TrainingPageState2();
 }
 
-class _TrainingPageState extends State<TrainingPage> {
+class _TrainingPageState2 extends State<TrainingPage2> {
   Color primaryColor = Color(0xFFa28eae);
 
   @override
@@ -15,20 +15,20 @@ class _TrainingPageState extends State<TrainingPage> {
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text('DATA TRAINING JAMUR KONSUMSI'), Text('26')],
+          children: [Text('DATA TRAINING JAMUR BERACUN'), Text('26')],
         ),
         backgroundColor: primaryColor,
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 4,
-        itemCount: 27,
+        itemCount: 26,
         itemBuilder: (BuildContext context, int index) {
           final i = index + 1;
           return Card(
             child:
                 // Column(
                 //   children: <Widget>[
-                Image.asset('./lib/Assets/image/0/k$i.jpg'),
+                Image.asset('./lib/Assets/image/1/b$i.jpg'),
             // ),
             //     Text(
             //         (dataTraining_reborn[index]['state'] == 1)
